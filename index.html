@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Data Science — Complete Cheat Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1424;
+  --bg3: #141929;
+  --surface: #1a2035;
+  --surface2: #202840;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8eaf2;
+  --text2: #8892a4;
+  --text3: #5a6478;
+
+  --pd: #4dabf7;
+  --pd-dim: rgba(77,171,247,0.12);
+  --pd-glow: rgba(77,171,247,0.25);
+
+  --np: #69db7c;
+  --np-dim: rgba(105,219,124,0.12);
+  --np-glow: rgba(105,219,124,0.25);
+
+  --mp: #ffa94d;
+  --mp-dim: rgba(255,169,77,0.12);
+  --mp-glow: rgba(255,169,77,0.25);
+
+  --sb: #f783ac;
+  --sb-dim: rgba(247,131,172,0.12);
+  --sb-glow: rgba(247,131,172,0.25);
+
+  --basic: #a9e34b;
+  --basic-bg: rgba(169,227,75,0.1);
+  --inter: #ffd43b;
+  --inter-bg: rgba(255,212,59,0.1);
+  --adv: #ff6b6b;
+  --adv-bg: rgba(255,107,107,0.1);
+
+  --kw: #c792ea;
+  --fn: #82aaff;
+  --st: #c3e88d;
+  --nm: #f78c6c;
+  --cm: #546e7a;
+  --op: #89ddff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+/* ── HEADER ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,14,26,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-py { color: var(--pd); }
+.logo-data { color: var(--text2); font-weight: 400; }
+
+.header-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.lib-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: var(--text2);
+  text-decoration: none;
+}
+.lib-btn:hover { background: var(--surface); color: var(--text); }
+.lib-btn.pd.active { background: var(--pd-dim); border-color: var(--pd); color: var(--pd); }
+.lib-btn.np.active { background: var(--np-dim); border-color: var(--np); color: var(--np); }
+.lib-btn.mp.active { background: var(--mp-dim); border-color: var(--mp); color: var(--mp); }
+.lib-btn.sb.active { background: var(--sb-dim); border-color: var(--sb); color: var(--sb); }
+
+/* ── HERO ── */
+.hero {
+  padding: 5rem 2rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 span { 
+  background: linear-gradient(135deg, var(--pd) 0%, var(--sb) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  color: var(--text2);
+  font-size: 1.05rem;
+  max-width: 560px;
+  margin: 0 auto 2rem;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hb {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+.hb.pd { color: var(--pd); border-color: var(--pd); background: var(--pd-dim); }
+.hb.np { color: var(--np); border-color: var(--np); background: var(--np-dim); }
+.hb.mp { color: var(--mp); border-color: var(--mp); background: var(--mp-dim); }
+.hb.sb { color: var(--sb); border-color: var(--sb); background: var(--sb-dim); }
+
+/* ── LAYOUT ── */
+.main-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 60px);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  gap: 0;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem 0;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar::-webkit-scrollbar { width: 3px; }
+
+.sidebar-section { margin-bottom: 1.8rem; }
+
+.sidebar-lib {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar-lib.pd { color: var(--pd); background: var(--pd-dim); }
+.sidebar-lib.np { color: var(--np); background: var(--np-dim); }
+.sidebar-lib.mp { color: var(--mp); background: var(--mp-dim); }
+.sidebar-lib.sb { color: var(--sb); background: var(--sb-dim); }
+
+.sidebar-link {
+  display: block;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+  margin-left: 4px;
+}
+.sidebar-link:hover { color: var(--text); background: var(--surface); border-left-color: var(--border2); }
+.sidebar-link.active { color: var(--text); background: var(--surface); }
+
+/* ── CONTENT ── */
+.content {
+  padding: 2rem 0 2rem 2rem;
+}
+
+/* ── SECTION ── */
+.lib-section {
+  margin-bottom: 4rem;
+}
+
+.lib-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.lib-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+}
+.lib-icon.pd { background: var(--pd-dim); color: var(--pd); border: 1px solid rgba(77,171,247,0.3); }
+.lib-icon.np { background: var(--np-dim); color: var(--np); border: 1px solid rgba(105,219,124,0.3); }
+.lib-icon.mp { background: var(--mp-dim); color: var(--mp); border: 1px solid rgba(255,169,77,0.3); }
+.lib-icon.sb { background: var(--sb-dim); color: var(--sb); border: 1px solid rgba(247,131,172,0.3); }
+
+.lib-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.lib-subtitle { color: var(--text2); font-size: 13px; margin-top: 2px; }
+
+/* ── TOPIC GROUP ── */
+.topic-group { margin-bottom: 2.5rem; }
+
+.topic-group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.topic-group-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.level-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: .05em;
+}
+.level-badge.basic { background: var(--basic-bg); color: var(--basic); border: 1px solid rgba(169,227,75,0.3); }
+.level-badge.inter { background: var(--inter-bg); color: var(--inter); border: 1px solid rgba(255,212,59,0.3); }
+.level-badge.adv { background: var(--adv-bg); color: var(--adv); border: 1px solid rgba(255,107,107,0.3); }
+
+/* ── CARD GRID ── */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border2); transform: translateY(-1px); }
+
+.card-head {
+  padding: 12px 14px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text3);
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+.copy-btn:hover { background: var(--surface2); color: var(--text); }
+.copy-btn.copied { color: var(--basic); }
+
+pre.code {
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--text);
+  background: transparent;
+  margin: 0;
+}
+pre.code::-webkit-scrollbar { height: 3px; }
+pre.code::-webkit-scrollbar-thumb { background: var(--surface2); }
+
+.card-example {
+  margin: 0 14px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.card-example .ex-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text3);
+  margin-bottom: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.card-example .ex-out { color: var(--np); }
+.card-example .ex-comment { color: var(--cm); }
+
+/* ── SYNTAX COLORS ── */
+.kw { color: var(--kw); }
+.fn { color: var(--fn); }
+.st { color: var(--st); }
+.nm { color: var(--nm); }
+.cm { color: var(--cm); font-style: italic; }
+.op { color: var(--op); }
+.cls { color: #ffcb6b; }
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3rem 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text3);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--pd); text-decoration: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .content { padding: 1.5rem 0; }
+  .hero { padding: 3rem 1.5rem 2rem; }
+}
+@media (max-width: 600px) {
+  header { padding: 0 1rem; }
+  .header-nav .lib-btn { padding: 5px 9px; font-size: 12px; }
+  .cards { grid-template-columns: 1fr; }
+}
+
+/* ── SCROLL ANIMATION ── */
+.fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── SEARCH ── */
+.search-wrap {
+  padding: 0 1rem 1rem 0;
+  position: sticky;
+  top: 60px;
+  background: var(--bg);
+  z-index: 10;
+  padding-top: 1.5rem;
+}
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--pd); }
+.search-input::placeholder { color: var(--text3); }
+
+/* ── BACK TO TOP ── */
+.back-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--text2);
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  opacity: 0;
+  transition: all 0.2s;
+  z-index: 50;
+}
+.back-top.show { opacity: 1; }
+.back-top:hover { color: var(--text); background: var(--surface); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <span class="logo-py">py</span><span>data</span><span class="logo-data">.cheatsheet</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#pandas" class="lib-btn pd active">Pandas</a>
+    <a href="#numpy" class="lib-btn np">NumPy</a>
+    <a href="#matplotlib" class="lib-btn mp">Matplotlib</a>
+    <a href="#seaborn" class="lib-btn sb">Seaborn</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Python · Data Science · Reference</div>
+  <h1>The Complete <span>Data Science</span> Cheat Sheet</h1>
+  <p>Every function, method, and pattern you need — from basics to advanced — with real working examples for each topic.</p>
+  <div class="hero-badges">
+    <span class="hb pd">Pandas 2.x</span>
+    <span class="hb np">NumPy 1.26</span>
+    <span class="hb mp">Matplotlib 3.8</span>
+    <span class="hb sb">Seaborn 0.13</span>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="Search topics..." id="searchInput">
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-lib pd">pd Pandas</div>
+      <a class="sidebar-link" href="#pd-create">Import & Create</a>
+      <a class="sidebar-link" href="#pd-read">Read / Write</a>
+      <a class="sidebar-link" href="#pd-inspect">Inspect</a>
+      <a class="sidebar-link" href="#pd-select">Select & Filter</a>
+      <a class="sidebar-link" href="#pd-clean">Clean & Fill</a>
+      <a class="sidebar-link" href="#pd-transform">Transform</a>
+      <a class="sidebar-link" href="#pd-groupby">GroupBy & Agg</a>
+      <a class="sidebar-link" href="#pd-merge">Merge & Join</a>
+      <a class="sidebar-link" href="#pd-strings">String Methods</a>
+      <a class="sidebar-link" href="#pd-time">Time Series</a>
+      <a class="sidebar-link" href="#pd-advanced">Advanced</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-lib np">np NumPy</div>
+      <a class="sidebar-link" href="#np-create">Array Creation</a>
+      <a class="sidebar-link" href="#np-index">Index & Slice</a>
+      <a class="sidebar-link" href="#np-math">Math Operations</a>
+      <a class="sidebar-link" href="#np-stats">Statistics</a>
+      <a class="sidebar-link" href="#np-linalg">Linear Algebra</a>
+      <a class="sidebar-link" href="#np-advanced">Advanced</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-lib mp">mp Matplotlib</div>
+      <a class="sidebar-link" href="#mp-setup">Setup & Figures</a>
+      <a class="sidebar-link" href="#mp-plots">Plot Types</a>
+      <a class="sidebar-link" href="#mp-style">Styling</a>
+      <a class="sidebar-link" href="#mp-layout">Layouts</a>
+      <a class="sidebar-link" href="#mp-advanced">Advanced</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-lib sb">sb Seaborn</div>
+      <a class="sidebar-link" href="#sb-setup">Setup & Theme</a>
+      <a class="sidebar-link" href="#sb-dist">Distribution</a>
+      <a class="sidebar-link" href="#sb-cat">Categorical</a>
+      <a class="sidebar-link" href="#sb-rel">Relational</a>
+      <a class="sidebar-link" href="#sb-matrix">Matrix Plots</a>
+      <a class="sidebar-link" href="#sb-advanced">Advanced</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content" id="mainContent">
+
+    <!-- ════════════════ PANDAS ════════════════ -->
+    <section class="lib-section" id="pandas">
+      <div class="lib-header">
+        <div class="lib-icon pd">pd</div>
+        <div>
+          <div class="lib-title" style="color:var(--pd)">Pandas</div>
+          <div class="lib-subtitle">Data manipulation & analysis — the backbone of Python data science</div>
+        </div>
+      </div>
+
+      <!-- IMPORT & CREATE -->
+      <div class="topic-group fade-in" id="pd-create">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Import & Create</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Import pandas</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Check version</span>
+<span class="fn">print</span>(pd.__version__)   <span class="cm"># e.g. 2.1.4</span></pre>
+            <div class="card-example"><div class="ex-label">Output</div><span class="ex-out">2.1.4</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Create DataFrame from dict</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df = pd.<span class="fn">DataFrame</span>({
+    <span class="st">'name'</span>  : [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>],
+    <span class="st">'age'</span>   : [<span class="nm">25</span>, <span class="nm">30</span>, <span class="nm">35</span>],
+    <span class="st">'salary'</span>: [<span class="nm">50000</span>, <span class="nm">65000</span>, <span class="nm">80000</span>],
+    <span class="st">'dept'</span>  : [<span class="st">'HR'</span>, <span class="st">'IT'</span>, <span class="st">'Finance'</span>]
+})
+<span class="fn">print</span>(df)</pre>
+            <div class="card-example"><div class="ex-label">Output</div>
+<span class="ex-out">      name  age  salary     dept
+0    Alice   25   50000       HR
+1      Bob   30   65000       IT
+2  Charlie   35   80000  Finance</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Create Series</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">s = pd.<span class="fn">Series</span>(
+    [<span class="nm">10</span>, <span class="nm">20</span>, <span class="nm">30</span>, <span class="nm">40</span>],
+    index=[<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>, <span class="st">'d'</span>],
+    name=<span class="st">'scores'</span>
+)
+<span class="fn">print</span>(s[<span class="st">'b'</span>])   <span class="cm"># → 20</span>
+<span class="fn">print</span>(s.mean()) <span class="cm"># → 25.0</span></pre>
+            <div class="card-example"><div class="ex-label">Output</div><span class="ex-out">20
+25.0</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Create from lists / range</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># From list of tuples</span>
+records = [(<span class="st">'Alice'</span>, <span class="nm">90</span>), (<span class="st">'Bob'</span>, <span class="nm">85</span>)]
+df = pd.<span class="fn">DataFrame</span>(records,
+    columns=[<span class="st">'name'</span>, <span class="st">'score'</span>])
+
+<span class="cm"># Numeric range DataFrame</span>
+df2 = pd.<span class="fn">DataFrame</span>(
+    np.<span class="fn">arange</span>(<span class="nm">1</span>, <span class="nm">7</span>).<span class="fn">reshape</span>(<span class="nm">2</span>, <span class="nm">3</span>),
+    columns=[<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>]
+)</pre>
+            <div class="card-example"><div class="ex-label">df2</div><span class="ex-out">   A  B  C
+0  1  2  3
+1  4  5  6</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- READ / WRITE -->
+      <div class="topic-group fade-in" id="pd-read">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Read / Write Files</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Read CSV</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Basic read</span>
+df = pd.<span class="fn">read_csv</span>(<span class="st">'data.csv'</span>)
+
+<span class="cm"># With options</span>
+df = pd.<span class="fn">read_csv</span>(<span class="st">'data.csv'</span>,
+    sep=<span class="st">','</span>,          <span class="cm"># delimiter</span>
+    header=<span class="nm">0</span>,         <span class="cm"># row index for header</span>
+    index_col=<span class="st">'id'</span>,   <span class="cm"># column as index</span>
+    usecols=[<span class="st">'a'</span>,<span class="st">'b'</span>],<span class="cm"># select columns</span>
+    nrows=<span class="nm">1000</span>,       <span class="cm"># limit rows</span>
+    parse_dates=[<span class="st">'date'</span>],
+    na_values=[<span class="st">'N/A'</span>, <span class="st">''</span>]
+)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># dtype={'col': 'category'} saves memory on string cols</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Write files</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df.<span class="fn">to_csv</span>(<span class="st">'output.csv'</span>, index=<span class="kw">False</span>)
+
+df.<span class="fn">to_excel</span>(<span class="st">'output.xlsx'</span>,
+    sheet_name=<span class="st">'Sheet1'</span>, index=<span class="kw">False</span>)
+
+df.<span class="fn">to_json</span>(<span class="st">'output.json'</span>,
+    orient=<span class="st">'records'</span>)   <span class="cm"># list of dicts</span>
+
+df.<span class="fn">to_parquet</span>(<span class="st">'output.parquet'</span>)
+<span class="cm"># Parquet = fast + compressed — use for large data</span></pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Parquet is 10-100x faster than CSV for large files</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Read Excel & SQL</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Excel (pip install openpyxl)</span>
+df = pd.<span class="fn">read_excel</span>(<span class="st">'data.xlsx'</span>,
+    sheet_name=<span class="st">'Sales'</span>)
+
+<span class="cm"># Multiple sheets at once</span>
+sheets = pd.<span class="fn">read_excel</span>(<span class="st">'data.xlsx'</span>,
+    sheet_name=<span class="kw">None</span>)  <span class="cm"># dict of DFs</span>
+
+<span class="cm"># SQL (pip install sqlalchemy)</span>
+<span class="kw">from</span> sqlalchemy <span class="kw">import</span> create_engine
+engine = <span class="fn">create_engine</span>(<span class="st">'sqlite:///db.sqlite'</span>)
+df = pd.<span class="fn">read_sql</span>(<span class="st">"SELECT * FROM users"</span>, engine)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># sheet_name=None loads ALL sheets as {name: df} dict</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INSPECT -->
+      <div class="topic-group fade-in" id="pd-inspect">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Inspect & Explore</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Basic inspection</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df.<span class="fn">head</span>(<span class="nm">5</span>)       <span class="cm"># first 5 rows</span>
+df.<span class="fn">tail</span>(<span class="nm">3</span>)       <span class="cm"># last 3 rows</span>
+df.<span class="fn">sample</span>(<span class="nm">5</span>)     <span class="cm"># random 5 rows</span>
+df.shape         <span class="cm"># (rows, cols) tuple</span>
+df.columns       <span class="cm"># Index of column names</span>
+df.dtypes        <span class="cm"># data type per column</span>
+df.index         <span class="cm"># row index object</span>
+<span class="fn">len</span>(df)          <span class="cm"># number of rows</span></pre>
+            <div class="card-example"><div class="ex-label">Example</div><span class="ex-out">df.shape  →  (1000, 7)
+len(df)   →  1000</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">info() and describe()</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df.<span class="fn">info</span>()       <span class="cm"># dtypes + null count + memory</span>
+df.<span class="fn">describe</span>()   <span class="cm"># stats: mean,std,min,max,quartiles</span>
+
+<span class="cm"># Include non-numeric cols</span>
+df.<span class="fn">describe</span>(include=<span class="st">'all'</span>)
+
+<span class="cm"># Just object (string) columns</span>
+df.<span class="fn">describe</span>(include=[<span class="st">'object'</span>])</pre>
+            <div class="card-example"><div class="ex-label">describe() output columns</div><span class="ex-out">count, mean, std, min, 25%, 50%, 75%, max</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Null analysis</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Count nulls per column</span>
+df.<span class="fn">isnull</span>().<span class="fn">sum</span>()
+
+<span class="cm"># Percentage missing</span>
+(df.<span class="fn">isnull</span>().<span class="fn">sum</span>() / <span class="fn">len</span>(df) * <span class="nm">100</span>).<span class="fn">round</span>(<span class="nm">2</span>)
+
+<span class="cm"># Rows with any null</span>
+df[df.<span class="fn">isnull</span>().<span class="fn">any</span>(axis=<span class="nm">1</span>)]
+
+<span class="cm"># Total null count</span>
+df.<span class="fn">isnull</span>().<span class="fn">sum</span>().<span class="fn">sum</span>()</pre>
+            <div class="card-example"><div class="ex-label">Example output</div><span class="ex-out">age       0
+salary    3    ← 3 missing values
+dept      1
+dtype: int64</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Value counts & unique</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df[<span class="st">'dept'</span>].<span class="fn">value_counts</span>()
+df[<span class="st">'dept'</span>].<span class="fn">value_counts</span>(normalize=<span class="kw">True</span>)  <span class="cm"># %</span>
+df[<span class="st">'dept'</span>].<span class="fn">nunique</span>()   <span class="cm"># count unique values</span>
+df[<span class="st">'dept'</span>].<span class="fn">unique</span>()    <span class="cm"># array of unique values</span>
+
+<span class="cm"># Frequency table with dropna=False</span>
+df[<span class="st">'dept'</span>].<span class="fn">value_counts</span>(dropna=<span class="kw">False</span>)</pre>
+            <div class="card-example"><div class="ex-label">Example</div><span class="ex-out">IT         45
+Finance    30
+HR         25
+Name: dept, dtype: int64</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SELECT & FILTER -->
+      <div class="topic-group fade-in" id="pd-select">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Select & Filter</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Column & row selection</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Single column → Series</span>
+df[<span class="st">'name'</span>]
+
+<span class="cm"># Multiple columns → DataFrame</span>
+df[[<span class="st">'name'</span>, <span class="st">'salary'</span>]]
+
+<span class="cm"># loc: label-based</span>
+df.<span class="fn">loc</span>[<span class="nm">0</span>, <span class="st">'name'</span>]          <span class="cm"># single cell</span>
+df.<span class="fn">loc</span>[<span class="nm">0</span>:<span class="nm">3</span>, <span class="st">'name'</span>:<span class="st">'age'</span>]  <span class="cm"># slice (inclusive!)</span>
+
+<span class="cm"># iloc: position-based</span>
+df.<span class="fn">iloc</span>[<span class="nm">0</span>, <span class="nm">1</span>]          <span class="cm"># row 0, col 1</span>
+df.<span class="fn">iloc</span>[<span class="nm">1</span>:<span class="nm">4</span>, <span class="nm">0</span>:<span class="nm">3</span>]      <span class="cm"># rows 1-3, cols 0-2</span>
+df.<span class="fn">iloc</span>[:, -<span class="nm">1</span>]         <span class="cm"># last column</span></pre>
+            <div class="card-example"><div class="ex-label">Key difference</div><span class="ex-comment"># loc INCLUDES end of slice, iloc EXCLUDES it</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Boolean filtering</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Single condition</span>
+df[df[<span class="st">'age'</span>] > <span class="nm">28</span>]
+
+<span class="cm"># Multiple conditions (use & | ~)</span>
+df[(df.age > <span class="nm">25</span>) & (df.salary > <span class="nm">60000</span>)]
+df[(df.dept == <span class="st">'IT'</span>) | (df.dept == <span class="st">'Finance'</span>)]
+df[~(df.dept == <span class="st">'HR'</span>)]  <span class="cm"># NOT HR</span>
+
+<span class="cm"># isin — match list of values</span>
+df[df[<span class="st">'dept'</span>].<span class="fn">isin</span>([<span class="st">'IT'</span>, <span class="st">'Finance'</span>])]
+
+<span class="cm"># between</span>
+df[df[<span class="st">'age'</span>].<span class="fn">between</span>(<span class="nm">25</span>, <span class="nm">35</span>)]</pre>
+            <div class="card-example"><div class="ex-label">Important</div><span class="ex-comment"># Always use & | ~ not and or not with DataFrames</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">query() — readable filters</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Clean string-based filtering</span>
+df.<span class="fn">query</span>(<span class="st">'age > 25 and salary > 60000'</span>)
+
+<span class="cm"># Use @ for Python variables</span>
+min_age = <span class="nm">28</span>
+df.<span class="fn">query</span>(<span class="st">'age > @min_age and dept == "IT"'</span>)
+
+<span class="cm"># Column names with spaces: use backticks</span>
+df.<span class="fn">query</span>(<span class="st">'`first name` == "Alice"'</span>)
+
+<span class="cm"># Not isin</span>
+df.<span class="fn">query</span>(<span class="st">'dept not in ["HR"]'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># query() is more readable than chained boolean masks</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CLEAN -->
+      <div class="topic-group fade-in" id="pd-clean">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Clean & Fill Missing Data</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Drop & fill nulls</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Drop rows with any null</span>
+df.<span class="fn">dropna</span>()
+
+<span class="cm"># Drop only if specific col is null</span>
+df.<span class="fn">dropna</span>(subset=[<span class="st">'salary'</span>])
+
+<span class="cm"># Drop cols where ALL values are null</span>
+df.<span class="fn">dropna</span>(axis=<span class="nm">1</span>, how=<span class="st">'all'</span>)
+
+<span class="cm"># Fill with constant</span>
+df.<span class="fn">fillna</span>(<span class="nm">0</span>)
+df[<span class="st">'dept'</span>].<span class="fn">fillna</span>(<span class="st">'Unknown'</span>)
+
+<span class="cm"># Fill with column mean</span>
+df[<span class="st">'salary'</span>].<span class="fn">fillna</span>(df[<span class="st">'salary'</span>].<span class="fn">mean</span>())</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Use inplace=True or reassign: df = df.fillna(0)</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Forward / backward fill</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Forward fill (propagate last valid value)</span>
+df.<span class="fn">ffill</span>()
+
+<span class="cm"># Backward fill</span>
+df.<span class="fn">bfill</span>()
+
+<span class="cm"># Interpolate (for numeric time series)</span>
+df[<span class="st">'price'</span>].<span class="fn">interpolate</span>(method=<span class="st">'linear'</span>)
+df[<span class="st">'price'</span>].<span class="fn">interpolate</span>(method=<span class="st">'time'</span>)
+
+<span class="cm"># Limit how many consecutive NaNs to fill</span>
+df.<span class="fn">ffill</span>(limit=<span class="nm">2</span>)</pre>
+            <div class="card-example"><div class="ex-label">Example</div><span class="ex-out">Before: [1, NaN, NaN, 4]
+ffill:  [1,   1,   1,  4]
+bfill:  [1,   4,   4,  4]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Rename, drop, type cast</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Rename columns</span>
+df.<span class="fn">rename</span>(columns={<span class="st">'old_name'</span>: <span class="st">'new_name'</span>})
+
+<span class="cm"># Rename all cols (must pass all)</span>
+df.columns = [<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>]
+
+<span class="cm"># Drop columns</span>
+df.<span class="fn">drop</span>(columns=[<span class="st">'col1'</span>, <span class="st">'col2'</span>])
+df.<span class="fn">drop</span>(index=[<span class="nm">0</span>, <span class="nm">1</span>])  <span class="cm"># drop rows by label</span>
+
+<span class="cm"># Cast types</span>
+df[<span class="st">'age'</span>] = df[<span class="st">'age'</span>].<span class="fn">astype</span>(<span class="st">'int32'</span>)
+df[<span class="st">'dept'</span>] = df[<span class="st">'dept'</span>].<span class="fn">astype</span>(<span class="st">'category'</span>)
+df[<span class="st">'date'</span>] = pd.<span class="fn">to_datetime</span>(df[<span class="st">'date'</span>])</pre>
+            <div class="card-example"><div class="ex-label">Memory tip</div><span class="ex-comment"># 'category' dtype uses ~50% less memory for repeated strings</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Duplicates</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Find duplicates</span>
+df.<span class="fn">duplicated</span>()  <span class="cm"># bool Series</span>
+df.<span class="fn">duplicated</span>(subset=[<span class="st">'name'</span>, <span class="st">'dept'</span>])
+
+<span class="cm"># Count duplicates</span>
+df.<span class="fn">duplicated</span>().<span class="fn">sum</span>()
+
+<span class="cm"># Drop duplicates</span>
+df.<span class="fn">drop_duplicates</span>()
+df.<span class="fn">drop_duplicates</span>(subset=[<span class="st">'name'</span>],
+    keep=<span class="st">'last'</span>)  <span class="cm"># keep='first'|'last'|False</span></pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># keep=False drops ALL duplicate rows, not just extras</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TRANSFORM -->
+      <div class="topic-group fade-in" id="pd-transform">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Transform & Apply</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">apply() — row/col functions</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Apply to a single column</span>
+df[<span class="st">'salary_k'</span>] = df[<span class="st">'salary'</span>].<span class="fn">apply</span>(
+    <span class="kw">lambda</span> x: x / <span class="nm">1000</span>
+)
+
+<span class="cm"># Apply to each row (axis=1)</span>
+df[<span class="st">'seniority'</span>] = df.<span class="fn">apply</span>(
+    <span class="kw">lambda</span> row: <span class="st">'Senior'</span> <span class="kw">if</span> row[<span class="st">'age'</span>] > <span class="nm">30</span>
+                <span class="kw">else</span> <span class="st">'Junior'</span>,
+    axis=<span class="nm">1</span>
+)
+
+<span class="cm"># Apply a named function</span>
+<span class="kw">def</span> <span class="fn">tax</span>(salary):
+    <span class="kw">return</span> salary * <span class="nm">0.2</span> <span class="kw">if</span> salary > <span class="nm">60000</span> <span class="kw">else</span> salary * <span class="nm">0.15</span>
+df[<span class="st">'tax'</span>] = df[<span class="st">'salary'</span>].<span class="fn">apply</span>(tax)</pre>
+            <div class="card-example"><div class="ex-label">Output column</div><span class="ex-out">0    Junior
+1    Senior
+2    Senior
+Name: seniority, dtype: object</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">map() and replace()</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># map: element-wise transformation via dict</span>
+df[<span class="st">'dept_code'</span>] = df[<span class="st">'dept'</span>].<span class="fn">map</span>({
+    <span class="st">'HR'</span>: <span class="nm">1</span>, <span class="st">'IT'</span>: <span class="nm">2</span>, <span class="st">'Finance'</span>: <span class="nm">3</span>
+})
+
+<span class="cm"># replace: swap specific values</span>
+df[<span class="st">'dept'</span>].<span class="fn">replace</span>(<span class="st">'HR'</span>, <span class="st">'Human Resources'</span>)
+df.<span class="fn">replace</span>({<span class="st">'dept'</span>: {<span class="st">'HR'</span>: <span class="st">'Human Res'</span>,
+                    <span class="st">'IT'</span>: <span class="st">'Technology'</span>}})</pre>
+            <div class="card-example"><div class="ex-label">map vs apply</div><span class="ex-comment"># map: element-wise on Series
+# apply: can be row-wise or col-wise</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Vectorized with np.where</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># 2-way conditional (fast, vectorized)</span>
+df[<span class="st">'grade'</span>] = np.<span class="fn">where</span>(
+    df[<span class="st">'score'</span>] >= <span class="nm">60</span>, <span class="st">'Pass'</span>, <span class="st">'Fail'</span>
+)
+
+<span class="cm"># Multi-way: np.select</span>
+conditions = [
+    df.score >= <span class="nm">90</span>,
+    df.score >= <span class="nm">75</span>,
+    df.score >= <span class="nm">60</span>
+]
+choices = [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>]
+df[<span class="st">'letter'</span>] = np.<span class="fn">select</span>(conditions, choices,
+    default=<span class="st">'F'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Output</div><span class="ex-out">score=92 → 'A'
+score=80 → 'B'
+score=55 → 'F'</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Sort & rank</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Sort by single column</span>
+df.<span class="fn">sort_values</span>(<span class="st">'salary'</span>, ascending=<span class="kw">False</span>)
+
+<span class="cm"># Sort by multiple columns</span>
+df.<span class="fn">sort_values</span>([<span class="st">'dept'</span>, <span class="st">'salary'</span>],
+    ascending=[<span class="kw">True</span>, <span class="kw">False</span>])
+
+<span class="cm"># Top/bottom N</span>
+df.<span class="fn">nlargest</span>(<span class="nm">5</span>, <span class="st">'salary'</span>)
+df.<span class="fn">nsmallest</span>(<span class="nm">3</span>, <span class="st">'age'</span>)
+
+<span class="cm"># Rank within the DataFrame</span>
+df[<span class="st">'rank'</span>] = df[<span class="st">'salary'</span>].<span class="fn">rank</span>(
+    ascending=<span class="kw">False</span>, method=<span class="st">'dense'</span>)</pre>
+            <div class="card-example"><div class="ex-label">rank methods</div><span class="ex-comment"># average, min, max, first, dense</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- GROUPBY -->
+      <div class="topic-group fade-in" id="pd-groupby">
+        <div class="topic-group-header">
+          <div class="topic-group-title">GroupBy & Aggregation</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Basic groupby</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Single aggregation</span>
+df.<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'salary'</span>].<span class="fn">mean</span>()
+
+<span class="cm"># Multiple aggregations</span>
+df.<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'salary'</span>].<span class="fn">agg</span>(
+    [<span class="st">'mean'</span>, <span class="st">'median'</span>, <span class="st">'std'</span>, <span class="st">'count'</span>]
+)
+
+<span class="cm"># Group by multiple columns</span>
+df.<span class="fn">groupby</span>([<span class="st">'dept'</span>, <span class="st">'year'</span>])[<span class="st">'salary'</span>].<span class="fn">sum</span>()
+
+<span class="cm"># Count rows per group</span>
+df.<span class="fn">groupby</span>(<span class="st">'dept'</span>).<span class="fn">size</span>().<span class="fn">reset_index</span>(name=<span class="st">'count'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Output</div><span class="ex-out">dept
+Finance    80000
+HR         50000
+IT         65000
+Name: salary, dtype: int64</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Named aggregation (agg)</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Named aggregation — cleaner output columns</span>
+result = df.<span class="fn">groupby</span>(<span class="st">'dept'</span>).<span class="fn">agg</span>(
+    avg_salary = (<span class="st">'salary'</span>, <span class="st">'mean'</span>),
+    max_salary = (<span class="st">'salary'</span>, <span class="st">'max'</span>),
+    min_salary = (<span class="st">'salary'</span>, <span class="st">'min'</span>),
+    headcount  = (<span class="st">'name'</span>, <span class="st">'count'</span>),
+    avg_age    = (<span class="st">'age'</span>, <span class="st">'mean'</span>)
+).<span class="fn">reset_index</span>()
+<span class="fn">print</span>(result)</pre>
+            <div class="card-example"><div class="ex-label">Output</div><span class="ex-out">      dept  avg_salary  max_salary  headcount
+0  Finance       80000       80000          1
+1       HR       50000       50000          1
+2       IT       65000       65000          1</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">transform() — keep shape</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Add group mean as new column</span>
+df[<span class="st">'dept_avg'</span>] = df.<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'salary'</span>]\
+    .<span class="fn">transform</span>(<span class="st">'mean'</span>)
+
+<span class="cm"># Z-score within group</span>
+df[<span class="st">'salary_zscore'</span>] = df.<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'salary'</span>]\
+    .<span class="fn">transform</span>(<span class="kw">lambda</span> x:
+        (x - x.<span class="fn">mean</span>()) / x.<span class="fn">std</span>())</pre>
+            <div class="card-example"><div class="ex-label">Key difference</div><span class="ex-comment"># transform returns same shape as input
+# agg returns one row per group</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">pivot_table</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">pivot = df.<span class="fn">pivot_table</span>(
+    values=<span class="st">'salary'</span>,
+    index=<span class="st">'dept'</span>,
+    columns=<span class="st">'year'</span>,
+    aggfunc=<span class="st">'mean'</span>,
+    fill_value=<span class="nm">0</span>,
+    margins=<span class="kw">True</span>,    <span class="cm"># adds row/col totals</span>
+    margins_name=<span class="st">'Total'</span>
+)
+<span class="fn">print</span>(pivot)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># aggfunc can be a list: ['mean', 'count']
+# or a dict: {'salary':'mean', 'age':'max'}</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MERGE -->
+      <div class="topic-group fade-in" id="pd-merge">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Merge & Join</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">merge() — SQL-style joins</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">employees = pd.<span class="fn">DataFrame</span>({<span class="st">'id'</span>:[<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],
+    <span class="st">'name'</span>:[<span class="st">'Alice'</span>,<span class="st">'Bob'</span>,<span class="st">'Charlie'</span>]})
+salaries  = pd.<span class="fn">DataFrame</span>({<span class="st">'id'</span>:[<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">4</span>],
+    <span class="st">'salary'</span>:[<span class="nm">50000</span>,<span class="nm">65000</span>,<span class="nm">70000</span>]})
+
+pd.<span class="fn">merge</span>(employees, salaries, on=<span class="st">'id'</span>)           <span class="cm"># inner</span>
+pd.<span class="fn">merge</span>(employees, salaries, on=<span class="st">'id'</span>, how=<span class="st">'left'</span>)
+pd.<span class="fn">merge</span>(employees, salaries, on=<span class="st">'id'</span>, how=<span class="st">'right'</span>)
+pd.<span class="fn">merge</span>(employees, salaries, on=<span class="st">'id'</span>, how=<span class="st">'outer'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Inner join result</div><span class="ex-out">   id   name  salary
+0   1  Alice   50000
+1   2    Bob   65000</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">concat() — stack DataFrames</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">df1 = pd.<span class="fn">DataFrame</span>({<span class="st">'A'</span>:[<span class="nm">1</span>,<span class="nm">2</span>], <span class="st">'B'</span>:[<span class="nm">3</span>,<span class="nm">4</span>]})
+df2 = pd.<span class="fn">DataFrame</span>({<span class="st">'A'</span>:[<span class="nm">5</span>,<span class="nm">6</span>], <span class="st">'B'</span>:[<span class="nm">7</span>,<span class="nm">8</span>]})
+
+<span class="cm"># Stack rows (vertical)</span>
+pd.<span class="fn">concat</span>([df1, df2], ignore_index=<span class="kw">True</span>)
+
+<span class="cm"># Stack columns (horizontal)</span>
+pd.<span class="fn">concat</span>([df1, df2], axis=<span class="nm">1</span>)
+
+<span class="cm"># Add source key</span>
+pd.<span class="fn">concat</span>([df1, df2], keys=[<span class="st">'2023'</span>, <span class="st">'2024'</span>])</pre>
+            <div class="card-example"><div class="ex-label">Vertical concat</div><span class="ex-out">   A  B
+0  1  3
+1  2  4
+2  5  7
+3  6  8</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STRINGS -->
+      <div class="topic-group fade-in" id="pd-strings">
+        <div class="topic-group-header">
+          <div class="topic-group-title">String Methods</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Common str methods</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">s = df[<span class="st">'name'</span>]
+
+s.str.<span class="fn">upper</span>()           <span class="cm"># ALICE, BOB</span>
+s.str.<span class="fn">lower</span>()           <span class="cm"># alice, bob</span>
+s.str.<span class="fn">strip</span>()           <span class="cm"># remove whitespace</span>
+s.str.<span class="fn">len</span>()             <span class="cm"># character count</span>
+s.str.<span class="fn">replace</span>(<span class="st">'o'</span>,<span class="st">'0'</span>)  <span class="cm"># Regex replace</span>
+s.str.<span class="fn">contains</span>(<span class="st">'ali'</span>, case=<span class="kw">False</span>, na=<span class="kw">False</span>)
+s.str.<span class="fn">startswith</span>(<span class="st">'A'</span>)
+s.str.<span class="fn">split</span>(<span class="st">' '</span>, expand=<span class="kw">True</span>)  <span class="cm"># split into cols</span></pre>
+            <div class="card-example"><div class="ex-label">Example</div><span class="ex-out">s.str.contains('ali', case=False)
+→  [True, False, False]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Regex extraction</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">emails = pd.<span class="fn">Series</span>([
+    <span class="st">'alice@gmail.com'</span>,
+    <span class="st">'bob@outlook.com'</span>
+])
+
+<span class="cm"># Extract domain</span>
+emails.str.<span class="fn">extract</span>(<span class="st">r'@(.+)\.'</span>)
+
+<span class="cm"># Extract multiple groups</span>
+emails.str.<span class="fn">extract</span>(
+    <span class="st">r'(.+)@(.+)\.(.+)'</span>)  <span class="cm"># → 3 columns</span>
+
+<span class="cm"># Test against regex</span>
+emails.str.<span class="fn">match</span>(<span class="st">r'[\w]+@[\w]+\.com'</span>)</pre>
+            <div class="card-example"><div class="ex-label">extract output</div><span class="ex-out">      0
+0  gmail
+1  outlook</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TIME SERIES -->
+      <div class="topic-group fade-in" id="pd-time">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Time Series</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Parse & create dates</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Parse from strings</span>
+df[<span class="st">'date'</span>] = pd.<span class="fn">to_datetime</span>(df[<span class="st">'date_str'</span>])
+
+<span class="cm"># Create date ranges</span>
+daily  = pd.<span class="fn">date_range</span>(<span class="st">'2024-01-01'</span>,
+                        periods=<span class="nm">12</span>, freq=<span class="st">'D'</span>)
+monthly = pd.<span class="fn">date_range</span>(<span class="st">'2024-01'</span>,
+                         periods=<span class="nm">12</span>, freq=<span class="st">'ME'</span>)
+
+<span class="cm"># Extract date components</span>
+df.date.dt.year        <span class="cm"># year as int</span>
+df.date.dt.month       <span class="cm"># month 1-12</span>
+df.date.dt.day_name()  <span class="cm"># Monday, Tuesday...</span>
+df.date.dt.quarter     <span class="cm"># 1-4</span></pre>
+            <div class="card-example"><div class="ex-label">freq aliases</div><span class="ex-comment"># D=day H=hour ME=month-end
+# QE=quarter-end YE=year-end W=week</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Resample & rolling</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Resample daily data to monthly</span>
+df.<span class="fn">set_index</span>(<span class="st">'date'</span>).<span class="fn">resample</span>(<span class="st">'ME'</span>)[<span class="st">'sales'</span>].\
+    <span class="fn">sum</span>()
+
+<span class="cm"># Rolling window statistics</span>
+df[<span class="st">'roll_7d'</span>] = df[<span class="st">'sales'</span>].\
+    <span class="fn">rolling</span>(window=<span class="nm">7</span>, min_periods=<span class="nm">1</span>).<span class="fn">mean</span>()
+
+<span class="cm"># Exponential weighted mean</span>
+df[<span class="st">'ewm_7d'</span>] = df[<span class="st">'sales'</span>].\
+    <span class="fn">ewm</span>(span=<span class="nm">7</span>).<span class="fn">mean</span>()
+
+<span class="cm"># Percent change day-over-day</span>
+df[<span class="st">'pct_change'</span>] = df[<span class="st">'sales'</span>].<span class="fn">pct_change</span>()</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># min_periods=1 avoids NaN at start of rolling window</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ADVANCED -->
+      <div class="topic-group fade-in" id="pd-advanced">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Advanced Patterns</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">MultiIndex</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">arrays = [[<span class="st">'A'</span>,<span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'B'</span>],
+           [<span class="nm">2023</span>,<span class="nm">2024</span>,<span class="nm">2023</span>,<span class="nm">2024</span>]]
+idx = pd.<span class="fn">MultiIndex</span>.<span class="fn">from_arrays</span>(
+    arrays, names=[<span class="st">'dept'</span>,<span class="st">'year'</span>])
+df = pd.<span class="fn">DataFrame</span>({<span class="st">'sales'</span>:<span class="fn">range</span>(<span class="nm">4</span>)},index=idx)
+
+df.<span class="fn">loc</span>[<span class="st">'A'</span>]                 <span class="cm"># all A rows</span>
+df.<span class="fn">loc</span>[(<span class="st">'A'</span>,<span class="nm">2024</span>)]           <span class="cm"># specific cell</span>
+df.xs(<span class="nm">2024</span>, level=<span class="st">'year'</span>)   <span class="cm"># cross-section</span>
+df.<span class="fn">reset_index</span>()             <span class="cm"># flatten index</span></pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Use sort_index() first for reliable slicing</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Melt & wide-to-long</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">wide = pd.<span class="fn">DataFrame</span>({
+    <span class="st">'id'</span>:[<span class="nm">1</span>,<span class="nm">2</span>], <span class="st">'q1'</span>:[<span class="nm">100</span>,<span class="nm">200</span>],
+    <span class="st">'q2'</span>:[<span class="nm">150</span>,<span class="nm">250</span>], <span class="st">'q3'</span>:[<span class="nm">120</span>,<span class="nm">220</span>]})
+
+<span class="cm"># Wide → Long</span>
+long = pd.<span class="fn">melt</span>(wide,
+    id_vars=[<span class="st">'id'</span>],
+    value_vars=[<span class="st">'q1'</span>,<span class="st">'q2'</span>,<span class="st">'q3'</span>],
+    var_name=<span class="st">'quarter'</span>,
+    value_name=<span class="st">'sales'</span>)
+
+<span class="cm"># Long → Wide</span>
+long.<span class="fn">pivot</span>(index=<span class="st">'id'</span>,
+    columns=<span class="st">'quarter'</span>, values=<span class="st">'sales'</span>)</pre>
+            <div class="card-example"><div class="ex-label">melt output</div><span class="ex-out">   id quarter  sales
+0   1      q1    100
+1   2      q1    200
+2   1      q2    150 ...</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Chunked reading (large files)</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Process large CSV in chunks</span>
+results = []
+<span class="kw">for</span> chunk <span class="kw">in</span> pd.<span class="fn">read_csv</span>(<span class="st">'big.csv'</span>,
+                           chunksize=<span class="nm">100_000</span>):
+    <span class="cm"># Process each chunk</span>
+    agg = chunk.<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'sales'</span>].<span class="fn">sum</span>()
+    results.<span class="fn">append</span>(agg)
+
+<span class="cm"># Combine all chunks</span>
+final = pd.<span class="fn">concat</span>(results).\
+    <span class="fn">groupby</span>(level=<span class="nm">0</span>).<span class="fn">sum</span>()</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Better yet: use Polars or DuckDB for multi-GB files</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Pipe — method chaining</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">def</span> <span class="fn">clean_names</span>(df):
+    df.columns = df.columns.str.<span class="fn">lower</span>().\
+        str.<span class="fn">replace</span>(<span class="st">' '</span>,<span class="st">'_'</span>)
+    <span class="kw">return</span> df
+
+result = (df
+    .<span class="fn">pipe</span>(clean_names)
+    .<span class="fn">dropna</span>(subset=[<span class="st">'salary'</span>])
+    .<span class="fn">query</span>(<span class="st">'age > 25'</span>)
+    .<span class="fn">assign</span>(salary_k=<span class="kw">lambda</span> x: x.salary/<span class="nm">1000</span>)
+    .<span class="fn">groupby</span>(<span class="st">'dept'</span>)[<span class="st">'salary_k'</span>].<span class="fn">mean</span>()
+)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># pipe + assign + query chains keep code readable</span></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ════════════════ NUMPY ════════════════ -->
+    <section class="lib-section" id="numpy">
+      <div class="lib-header">
+        <div class="lib-icon np">np</div>
+        <div>
+          <div class="lib-title" style="color:var(--np)">NumPy</div>
+          <div class="lib-subtitle">Numerical computing — fast arrays, linear algebra, and vectorized operations</div>
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-create">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Array Creation</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Basic creation</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+np.<span class="fn">array</span>([<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>])
+np.<span class="fn">array</span>([[<span class="nm">1</span>,<span class="nm">2</span>],[<span class="nm">3</span>,<span class="nm">4</span>]])  <span class="cm"># 2D array</span>
+np.<span class="fn">zeros</span>((<span class="nm">3</span>, <span class="nm">4</span>))        <span class="cm"># 3x4 of 0.0</span>
+np.<span class="fn">ones</span>((<span class="nm">2</span>, <span class="nm">3</span>))         <span class="cm"># 2x3 of 1.0</span>
+np.<span class="fn">eye</span>(<span class="nm">4</span>)               <span class="cm"># 4x4 identity</span>
+np.<span class="fn">full</span>((<span class="nm">3</span>, <span class="nm">3</span>), <span class="nm">7</span>)      <span class="cm"># 3x3 filled with 7</span>
+np.<span class="fn">empty</span>((<span class="nm">2</span>, <span class="nm">2</span>))        <span class="cm"># uninitialized (fast)</span></pre>
+            <div class="card-example"><div class="ex-label">zeros((2,3))</div><span class="ex-out">[[0. 0. 0.]
+ [0. 0. 0.]]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Ranges & linspace</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># arange: like Python range</span>
+np.<span class="fn">arange</span>(<span class="nm">0</span>, <span class="nm">10</span>)        <span class="cm"># [0,1,...,9]</span>
+np.<span class="fn">arange</span>(<span class="nm">0</span>, <span class="nm">10</span>, <span class="nm">2</span>)     <span class="cm"># [0,2,4,6,8]</span>
+np.<span class="fn">arange</span>(<span class="nm">0.0</span>, <span class="nm">1.0</span>, <span class="nm">0.1</span>) <span class="cm"># float steps</span>
+
+<span class="cm"># linspace: N evenly spaced points</span>
+np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">5</span>)    <span class="cm"># [0, .25, .5, .75, 1]</span>
+np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">2</span>*np.pi, <span class="nm">100</span>) <span class="cm"># for trig</span>
+
+<span class="cm"># logspace: logarithmically spaced</span>
+np.<span class="fn">logspace</span>(<span class="nm">0</span>, <span class="nm">3</span>, <span class="nm">4</span>)    <span class="cm"># [1, 10, 100, 1000]</span></pre>
+            <div class="card-example"><div class="ex-label">linspace(0,1,5)</div><span class="ex-out">[0.   0.25 0.5  0.75 1.  ]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Random arrays (modern API)</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Use the new Generator API (reproducible)</span>
+rng = np.random.<span class="fn">default_rng</span>(seed=<span class="nm">42</span>)
+
+rng.<span class="fn">random</span>((<span class="nm">3</span>, <span class="nm">3</span>))        <span class="cm"># uniform [0,1)</span>
+rng.<span class="fn">integers</span>(<span class="nm">0</span>, <span class="nm">10</span>, <span class="nm">5</span>)   <span class="cm"># random ints</span>
+rng.<span class="fn">normal</span>(<span class="nm">0</span>, <span class="nm">1</span>, (<span class="nm">3</span>, <span class="nm">3</span>)) <span class="cm"># normal dist</span>
+rng.<span class="fn">choice</span>([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>], <span class="nm">5</span>)   <span class="cm"># sample from list</span>
+rng.<span class="fn">shuffle</span>(arr)           <span class="cm"># in-place shuffle</span>
+
+<span class="cm"># Permutation (returns new array)</span>
+rng.<span class="fn">permutation</span>(<span class="nm">10</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Prefer default_rng() over np.random.seed()
+# It's thread-safe and more statistically sound</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-index">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Indexing & Reshaping</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Indexing & slicing</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">arange</span>(<span class="nm">12</span>).<span class="fn">reshape</span>(<span class="nm">3</span>, <span class="nm">4</span>)
+<span class="cm"># [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]</span>
+
+a[<span class="nm">1</span>, <span class="nm">2</span>]       <span class="cm"># → 6  (row 1, col 2)</span>
+a[<span class="nm">0</span>:2, <span class="nm">1</span>:3]  <span class="cm"># → [[1,2],[5,6]]</span>
+a[:, <span class="nm">2</span>]       <span class="cm"># → all rows, col 2</span>
+a[<span class="nm">2</span>, :]       <span class="cm"># → last row</span>
+a[-<span class="nm">1</span>, -<span class="nm">1</span>]    <span class="cm"># → 11 (last element)</span>
+a[a > <span class="nm">5</span>]      <span class="cm"># → boolean mask</span></pre>
+            <div class="card-example"><div class="ex-label">a[:, 2]</div><span class="ex-out">[ 2  6 10]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Reshape & flatten</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">arange</span>(<span class="nm">24</span>)
+
+a.<span class="fn">reshape</span>(<span class="nm">4</span>, <span class="nm">6</span>)        <span class="cm"># 4 rows × 6 cols</span>
+a.<span class="fn">reshape</span>(<span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>)    <span class="cm"># 3D array</span>
+a.<span class="fn">reshape</span>(<span class="nm">6</span>, -<span class="nm">1</span>)       <span class="cm"># -1 = auto-calculate</span>
+
+a.<span class="fn">flatten</span>()           <span class="cm"># → copy (1D)</span>
+a.<span class="fn">ravel</span>()             <span class="cm"># → view if possible (faster)</span>
+
+<span class="cm"># Add dimension</span>
+a[:, np.newaxis]       <span class="cm"># same as a[:,None]</span>
+a[np.newaxis, :]       <span class="cm"># add leading dim</span></pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># reshape(-1,1) makes a column vector
+# reshape(1,-1) makes a row vector</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Stack & split</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">array</span>([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>])
+b = np.<span class="fn">array</span>([<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>])
+
+np.<span class="fn">vstack</span>([a, b])   <span class="cm"># → [[1,2,3],[4,5,6]]</span>
+np.<span class="fn">hstack</span>([a, b])   <span class="cm"># → [1,2,3,4,5,6]</span>
+np.<span class="fn">stack</span>([a, b], axis=<span class="nm">0</span>)  <span class="cm"># new axis</span>
+np.<span class="fn">concatenate</span>([a, b])
+
+<span class="cm"># Split</span>
+np.<span class="fn">split</span>(a, <span class="nm">3</span>)       <span class="cm"># 3 equal parts</span>
+np.<span class="fn">array_split</span>(a, <span class="nm">2</span>) <span class="cm"># unequal OK</span></pre>
+            <div class="card-example"><div class="ex-label">vstack result</div><span class="ex-out">[[1 2 3]
+ [4 5 6]]</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-math">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Math Operations</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Element-wise math</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">array</span>([<span class="nm">1</span>, <span class="nm">4</span>, <span class="nm">9</span>, <span class="nm">16</span>])
+
+np.<span class="fn">sqrt</span>(a)       <span class="cm"># → [1. 2. 3. 4.]</span>
+np.<span class="fn">square</span>(a)     <span class="cm"># → [1 16 81 256]</span>
+np.<span class="fn">abs</span>(a)        <span class="cm"># absolute value</span>
+np.<span class="fn">exp</span>(a)        <span class="cm"># e^x for each</span>
+np.<span class="fn">log</span>(a)        <span class="cm"># natural log</span>
+np.<span class="fn">log2</span>(a)       <span class="cm"># log base 2</span>
+np.<span class="fn">log10</span>(a)      <span class="cm"># log base 10</span>
+np.<span class="fn">floor</span>(a)      <span class="cm"># round down</span>
+np.<span class="fn">ceil</span>(a)       <span class="cm"># round up</span></pre>
+            <div class="card-example"><div class="ex-label">sqrt([1,4,9,16])</div><span class="ex-out">[1. 2. 3. 4.]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Trig & clip</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">x = np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">2</span>*np.pi, <span class="nm">6</span>)
+
+np.<span class="fn">sin</span>(x)
+np.<span class="fn">cos</span>(x)
+np.<span class="fn">tan</span>(x)
+np.<span class="fn">arcsin</span>(x)
+
+<span class="cm"># Clip values to range</span>
+a = np.<span class="fn">array</span>([<span class="nm">-5</span>, <span class="nm">0</span>, <span class="nm">5</span>, <span class="nm">10</span>, <span class="nm">15</span>])
+np.<span class="fn">clip</span>(a, <span class="nm">0</span>, <span class="nm">10</span>)  <span class="cm"># → [0, 0, 5, 10, 10]</span>
+
+<span class="cm"># Round</span>
+np.<span class="fn">round</span>(a, decimals=<span class="nm">2</span>)</pre>
+            <div class="card-example"><div class="ex-label">clip([−5,0,5,10,15], 0, 10)</div><span class="ex-out">[ 0  0  5 10 10]</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-stats">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Statistics & Aggregations</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Aggregation functions</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">array</span>([[<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],[<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>]])
+
+a.<span class="fn">sum</span>()            <span class="cm"># all → 21</span>
+a.<span class="fn">sum</span>(axis=<span class="nm">0</span>)      <span class="cm"># col sums → [5,7,9]</span>
+a.<span class="fn">sum</span>(axis=<span class="nm">1</span>)      <span class="cm"># row sums → [6,15]</span>
+a.<span class="fn">mean</span>()           <span class="cm"># → 3.5</span>
+a.<span class="fn">std</span>()            <span class="cm"># standard deviation</span>
+a.<span class="fn">var</span>()            <span class="cm"># variance</span>
+a.<span class="fn">min</span>() / a.<span class="fn">max</span>()  <span class="cm"># min / max</span>
+a.<span class="fn">argmin</span>()         <span class="cm"># index of min</span>
+a.<span class="fn">argmax</span>()         <span class="cm"># index of max</span></pre>
+            <div class="card-example"><div class="ex-label">sum(axis=0)</div><span class="ex-out">[5 7 9]  ← column sums</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Percentiles & histogram</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">data = rng.<span class="fn">normal</span>(<span class="nm">100</span>, <span class="nm">15</span>, <span class="nm">1000</span>)
+
+np.<span class="fn">percentile</span>(data, [<span class="nm">25</span>, <span class="nm">50</span>, <span class="nm">75</span>])
+np.<span class="fn">quantile</span>(data, <span class="nm">0.95</span>)    <span class="cm"># 95th percentile</span>
+np.<span class="fn">median</span>(data)
+np.<span class="fn">corrcoef</span>(x, y)          <span class="cm"># correlation matrix</span>
+np.<span class="fn">cov</span>(x, y)               <span class="cm"># covariance matrix</span>
+
+counts, edges = np.<span class="fn">histogram</span>(data, bins=<span class="nm">20</span>)</pre>
+            <div class="card-example"><div class="ex-label">percentile([25,50,75])</div><span class="ex-out">[ 89.8  99.7 110.1]  ← Q1, median, Q3</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-linalg">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Linear Algebra</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Matrix operations</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">A = np.<span class="fn">array</span>([[<span class="nm">1</span>,<span class="nm">2</span>],[<span class="nm">3</span>,<span class="nm">4</span>]])
+B = np.<span class="fn">array</span>([[<span class="nm">5</span>,<span class="nm">6</span>],[<span class="nm">7</span>,<span class="nm">8</span>]])
+
+A @ B               <span class="cm"># matrix multiply</span>
+np.<span class="fn">dot</span>(A, B)        <span class="cm"># same</span>
+A.T                 <span class="cm"># transpose</span>
+np.linalg.<span class="fn">inv</span>(A)   <span class="cm"># inverse</span>
+np.linalg.<span class="fn">det</span>(A)   <span class="cm"># determinant → -2.0</span>
+np.linalg.<span class="fn">norm</span>(A)  <span class="cm"># Frobenius norm</span>
+np.linalg.<span class="fn">rank</span>(A)  <span class="cm"># matrix rank</span></pre>
+            <div class="card-example"><div class="ex-label">A @ B</div><span class="ex-out">[[19 22]
+ [43 50]]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Solve & decompose</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Solve Ax = b</span>
+A = np.<span class="fn">array</span>([[<span class="nm">2</span>,<span class="nm">1</span>],[-<span class="nm">1</span>,<span class="nm">3</span>]])
+b = np.<span class="fn">array</span>([<span class="nm">5</span>, <span class="nm">0</span>])
+x = np.linalg.<span class="fn">solve</span>(A, b)  <span class="cm"># → [3, -1]</span>
+
+<span class="cm"># Eigenvalues & eigenvectors</span>
+vals, vecs = np.linalg.<span class="fn">eig</span>(A)
+
+<span class="cm"># SVD decomposition</span>
+U, s, Vt = np.linalg.<span class="fn">svd</span>(A)
+
+<span class="cm"># QR decomposition</span>
+Q, R = np.linalg.<span class="fn">qr</span>(A)</pre>
+            <div class="card-example"><div class="ex-label">solve([2x+y=5, -x+3y=0])</div><span class="ex-out">x = [3.  -1.]  ← solution</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="np-advanced">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Advanced NumPy</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Broadcasting</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Shapes align right-to-left</span>
+<span class="cm"># (3,1) + (1,4) → (3,4)</span>
+
+rows = np.<span class="fn">array</span>([<span class="nm">0</span>,<span class="nm">10</span>,<span class="nm">20</span>]).<span class="fn">reshape</span>(<span class="nm">3</span>,<span class="nm">1</span>)
+cols = np.<span class="fn">array</span>([<span class="nm">0</span>,<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>])
+result = rows + cols    <span class="cm"># → 3×4 matrix</span>
+
+<span class="cm"># Normalize each row</span>
+data = rng.<span class="fn">random</span>((<span class="nm">4</span>, <span class="nm">5</span>))
+data_norm = (data - data.<span class="fn">mean</span>(axis=<span class="nm">1</span>, keepdims=<span class="kw">True</span>)) \
+            / data.<span class="fn">std</span>(axis=<span class="nm">1</span>, keepdims=<span class="kw">True</span>)</pre>
+            <div class="card-example"><div class="ex-label">rows + cols</div><span class="ex-out">[[ 0  1  2  3]
+ [10 11 12 13]
+ [20 21 22 23]]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Fancy indexing & masks</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">arange</span>(<span class="nm">10</span>)
+
+<span class="cm"># Fancy indexing (index with array)</span>
+a[[<span class="nm">0</span>, <span class="nm">2</span>, <span class="nm">7</span>]]         <span class="cm"># → [0, 2, 7]</span>
+
+<span class="cm"># Boolean mask</span>
+mask = a % <span class="nm">2</span> == <span class="nm">0</span>    <span class="cm"># even numbers</span>
+a[mask]               <span class="cm"># → [0,2,4,6,8]</span>
+
+<span class="cm"># np.where — conditional select</span>
+np.<span class="fn">where</span>(a > <span class="nm">5</span>, a, <span class="nm">0</span>)  <span class="cm"># → [0,0,0,0,0,0,6,7,8,9]</span>
+
+<span class="cm"># nonzero — indices where True</span>
+np.<span class="fn">nonzero</span>(a > <span class="nm">5</span>)      <span class="cm"># → (array([6,7,8,9]),)</span></pre>
+            <div class="card-example"><div class="ex-label">where(a>5, a, 0)</div><span class="ex-out">[0 0 0 0 0 0 6 7 8 9]</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Performance: views vs copies</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">a = np.<span class="fn">arange</span>(<span class="nm">10</span>)
+
+<span class="cm"># VIEW — shares memory (fast, careful!)</span>
+b = a[<span class="nm">2</span>:<span class="nm">7</span>]
+b[<span class="nm">0</span>] = <span class="nm">99</span>   <span class="cm"># also changes a[2]!</span>
+a.base <span class="kw">is</span> <span class="kw">None</span>  <span class="cm"># False if view</span>
+
+<span class="cm"># COPY — independent array</span>
+c = a[<span class="nm">2</span>:<span class="nm">7</span>].<span class="fn">copy</span>()
+c[<span class="nm">0</span>] = <span class="nm">99</span>   <span class="cm"># doesn't affect a</span>
+
+<span class="cm"># Check if sharing memory</span>
+np.<span class="fn">shares_memory</span>(a, b)  <span class="cm"># True</span></pre>
+            <div class="card-example"><div class="ex-label">Important rule</div><span class="ex-comment"># Slices are views. Fancy indexing creates copies.</span></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ════════════════ MATPLOTLIB ════════════════ -->
+    <section class="lib-section" id="matplotlib">
+      <div class="lib-header">
+        <div class="lib-icon mp">mp</div>
+        <div>
+          <div class="lib-title" style="color:var(--mp)">Matplotlib</div>
+          <div class="lib-subtitle">The foundational Python plotting library — complete control over every element</div>
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="mp-setup">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Setup & Figures</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Import & setup</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> matplotlib <span class="kw">as</span> mpl
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Set resolution for crisp output</span>
+mpl.rcParams[<span class="st">'figure.dpi'</span>] = <span class="nm">120</span>
+
+<span class="cm"># Use a clean style</span>
+plt.style.<span class="fn">use</span>(<span class="st">'seaborn-v0_8-whitegrid'</span>)
+
+<span class="cm"># Or set individual params</span>
+plt.rcParams.<span class="fn">update</span>({
+    <span class="st">'figure.figsize'</span>: (<span class="nm">8</span>, <span class="nm">5</span>),
+    <span class="st">'axes.spines.top'</span>: <span class="kw">False</span>,
+    <span class="st">'axes.spines.right'</span>: <span class="kw">False</span>
+})</pre>
+            <div class="card-example"><div class="ex-label">Available styles</div><span class="ex-comment"># plt.style.available  ← list all
+# ggplot, dark_background, bmh, fivethirtyeight</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Figure & subplots</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Single plot</span>
+fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="nm">8</span>, <span class="nm">5</span>))
+
+<span class="cm"># Grid of subplots</span>
+fig, axes = plt.<span class="fn">subplots</span>(<span class="nm">2</span>, <span class="nm">3</span>,
+    figsize=(<span class="nm">12</span>, <span class="nm">8</span>),
+    sharex=<span class="kw">True</span>,      <span class="cm"># share x-axis</span>
+    sharey=<span class="kw">True</span>)      <span class="cm"># share y-axis</span>
+ax = axes[<span class="nm">0</span>, <span class="nm">1</span>]      <span class="cm"># access subplot</span>
+ax = axes.<span class="fn">flatten</span>()  <span class="cm"># 1D for iteration</span>
+
+plt.<span class="fn">tight_layout</span>(pad=<span class="nm">2.0</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Always call tight_layout() before savefig()
+# It prevents label clipping</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Save & display</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Save to file</span>
+plt.<span class="fn">savefig</span>(<span class="st">'chart.png'</span>,
+    dpi=<span class="nm">150</span>,
+    bbox_inches=<span class="st">'tight'</span>,  <span class="cm"># prevent clipping</span>
+    transparent=<span class="kw">False</span>)
+
+plt.<span class="fn">savefig</span>(<span class="st">'chart.pdf'</span>)   <span class="cm"># vector</span>
+plt.<span class="fn">savefig</span>(<span class="st">'chart.svg'</span>)   <span class="cm"># vector</span>
+
+plt.<span class="fn">show</span>()   <span class="cm"># display in notebook/window</span>
+plt.<span class="fn">close</span>()  <span class="cm"># free memory (important in loops)</span>
+plt.<span class="fn">clf</span>()    <span class="cm"># clear figure</span>
+plt.<span class="fn">cla</span>()    <span class="cm"># clear axes only</span></pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># In Jupyter: %matplotlib inline or %matplotlib widget</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="mp-plots">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Plot Types</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Line plot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">x = np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">4</span>*np.pi, <span class="nm">200</span>)
+fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="nm">8</span>, <span class="nm">4</span>))
+
+ax.<span class="fn">plot</span>(x, np.<span class="fn">sin</span>(x),
+    label=<span class="st">'sin(x)'</span>, color=<span class="st">'#2196F3'</span>, lw=<span class="nm">2</span>)
+ax.<span class="fn">plot</span>(x, np.<span class="fn">cos</span>(x),
+    label=<span class="st">'cos(x)'</span>, color=<span class="st">'#FF5722'</span>,
+    linestyle=<span class="st">'--'</span>, lw=<span class="nm">2</span>)
+
+ax.<span class="fn">set_xlabel</span>(<span class="st">'x'</span>); ax.<span class="fn">set_ylabel</span>(<span class="st">'y'</span>)
+ax.<span class="fn">set_title</span>(<span class="st">'Sine and Cosine'</span>)
+ax.<span class="fn">legend</span>()
+plt.<span class="fn">tight_layout</span>()</pre>
+            <div class="card-example"><div class="ex-label">linestyle options</div><span class="ex-comment"># '-'  solid  '--' dashed  ':'  dotted  '-.' dash-dot</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Bar chart</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">categories = [<span class="st">'IT'</span>, <span class="st">'HR'</span>, <span class="st">'Finance'</span>, <span class="st">'Sales'</span>]
+values = [<span class="nm">65000</span>, <span class="nm">50000</span>, <span class="nm">80000</span>, <span class="nm">72000</span>]
+
+fig, ax = plt.<span class="fn">subplots</span>()
+bars = ax.<span class="fn">bar</span>(categories, values,
+    color=[<span class="st">'#4CAF50'</span>,<span class="st">'#2196F3'</span>,<span class="st">'#FF9800'</span>,<span class="st">'#E91E63'</span>],
+    edgecolor=<span class="st">'white'</span>, linewidth=<span class="nm">0.5</span>)
+
+<span class="cm"># Add value labels on bars</span>
+ax.<span class="fn">bar_label</span>(bars, fmt=<span class="st">'$%,.0f'</span>, padding=<span class="nm">4</span>)
+ax.<span class="fn">set_title</span>(<span class="st">'Average Salary by Department'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># ax.barh() for horizontal bars
+# ax.bar_label() added in Matplotlib 3.4</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Scatter plot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">rng = np.random.<span class="fn">default_rng</span>(<span class="nm">42</span>)
+x = rng.<span class="fn">normal</span>(<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">100</span>)
+y = x * <span class="nm">2</span> + rng.<span class="fn">normal</span>(<span class="nm">0</span>, <span class="nm">0.5</span>, <span class="nm">100</span>)
+c = x + y   <span class="cm"># color by value</span>
+
+fig, ax = plt.<span class="fn">subplots</span>()
+sc = ax.<span class="fn">scatter</span>(x, y,
+    c=c, cmap=<span class="st">'viridis'</span>,
+    s=<span class="nm">60</span>, alpha=<span class="nm">0.7</span>,
+    edgecolors=<span class="st">'white'</span>, linewidths=<span class="nm">0.5</span>)
+plt.<span class="fn">colorbar</span>(sc, ax=ax, label=<span class="st">'Value'</span>)</pre>
+            <div class="card-example"><div class="ex-label">s parameter</div><span class="ex-comment"># s = marker size in points^2
+# can be a scalar or array (size = data value)</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Histogram</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">data = rng.<span class="fn">normal</span>(<span class="nm">100</span>, <span class="nm">15</span>, <span class="nm">1000</span>)
+fig, ax = plt.<span class="fn">subplots</span>()
+
+ax.<span class="fn">hist</span>(data,
+    bins=<span class="nm">30</span>,
+    color=<span class="st">'#3F51B5'</span>, alpha=<span class="nm">0.8</span>,
+    edgecolor=<span class="st">'white'</span>, linewidth=<span class="nm">0.5</span>,
+    density=<span class="kw">True</span>)  <span class="cm"># normalize to density</span>
+
+<span class="cm"># Overlay a KDE curve</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> norm
+xs = np.<span class="fn">linspace</span>(<span class="nm">50</span>, <span class="nm">150</span>, <span class="nm">200</span>)
+ax.<span class="fn">plot</span>(xs, norm.<span class="fn">pdf</span>(xs, <span class="nm">100</span>, <span class="nm">15</span>), <span class="st">'r-'</span>, lw=<span class="nm">2</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># density=True: y-axis = probability density
+# Use rwidth=0.85 to add gaps between bars</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Box & violin plot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">data = [rng.<span class="fn">normal</span>(<span class="nm">0</span>, std, <span class="nm">100</span>)
+        <span class="kw">for</span> std <span class="kw">in</span> [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]]
+
+fig, (ax1, ax2) = plt.<span class="fn">subplots</span>(<span class="nm">1</span>, <span class="nm">2</span>)
+
+<span class="cm"># Boxplot</span>
+ax1.<span class="fn">boxplot</span>(data,
+    patch_artist=<span class="kw">True</span>,
+    notch=<span class="kw">True</span>)
+ax1.<span class="fn">set_title</span>(<span class="st">'Boxplot'</span>)
+
+<span class="cm"># Violin plot</span>
+ax2.<span class="fn">violinplot</span>(data,
+    showmedians=<span class="kw">True</span>)
+ax2.<span class="fn">set_title</span>(<span class="st">'Violin'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># patch_artist=True fills boxes with color
+# notch=True shows confidence interval around median</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="mp-style">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Styling & Annotations</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Annotations & text</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">fig, ax = plt.<span class="fn">subplots</span>()
+ax.<span class="fn">plot</span>(x, y)
+
+<span class="cm"># Arrow annotation</span>
+ax.<span class="fn">annotate</span>(<span class="st">'Peak value'</span>,
+    xy=(<span class="nm">3</span>, <span class="nm">9</span>),           <span class="cm"># arrow tip</span>
+    xytext=(<span class="nm">4</span>, <span class="nm">7</span>),        <span class="cm"># text position</span>
+    arrowprops=<span class="fn">dict</span>(
+        arrowstyle=<span class="st">'->'</span>,
+        color=<span class="st">'red'</span>),
+    fontsize=<span class="nm">11</span>)
+
+ax.<span class="fn">text</span>(<span class="nm">0.5</span>, <span class="nm">0.95</span>, <span class="st">'subtitle'</span>,
+    transform=ax.transAxes,  <span class="cm"># relative coords</span>
+    ha=<span class="st">'center'</span>, va=<span class="st">'top'</span>, fontsize=<span class="nm">9</span>)</pre>
+            <div class="card-example"><div class="ex-label">Coordinate systems</div><span class="ex-comment"># data coords: actual x,y values
+# transAxes: 0–1 relative to axes box</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Reference lines & spans</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">ax.<span class="fn">axhline</span>(y=<span class="nm">0</span>, color=<span class="st">'black'</span>, lw=<span class="nm">0.8</span>)
+ax.<span class="fn">axvline</span>(x=<span class="nm">5</span>, ls=<span class="st">'--'</span>, color=<span class="st">'gray'</span>)
+
+<span class="cm"># Shaded region</span>
+ax.<span class="fn">axhspan</span>(<span class="nm">70</span>, <span class="nm">100</span>,
+    alpha=<span class="nm">0.1</span>, color=<span class="st">'green'</span>,
+    label=<span class="st">'Target zone'</span>)
+ax.<span class="fn">axvspan</span>(<span class="nm">2</span>, <span class="nm">4</span>, alpha=<span class="nm">0.1</span>, color=<span class="st">'blue'</span>)
+
+<span class="cm"># Fill between two curves</span>
+ax.<span class="fn">fill_between</span>(x, y1, y2,
+    alpha=<span class="nm">0.3</span>, label=<span class="st">'Confidence interval'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># fill_between is great for error bands and CI</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Twin axes (dual y-axis)</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">x = np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">10</span>, <span class="nm">50</span>)
+fig, ax1 = plt.<span class="fn">subplots</span>()
+
+<span class="cm"># Left y-axis (revenue)</span>
+ax1.<span class="fn">plot</span>(x, x**<span class="nm">2</span>, color=<span class="st">'steelblue'</span>)
+ax1.<span class="fn">set_ylabel</span>(<span class="st">'Revenue ($)'</span>, color=<span class="st">'steelblue'</span>)
+ax1.tick_params(axis=<span class="st">'y'</span>, labelcolor=<span class="st">'steelblue'</span>)
+
+<span class="cm"># Right y-axis (volume)</span>
+ax2 = ax1.<span class="fn">twinx</span>()
+ax2.<span class="fn">plot</span>(x, np.<span class="fn">sqrt</span>(x)*<span class="nm">100</span>, color=<span class="st">'tomato'</span>)
+ax2.<span class="fn">set_ylabel</span>(<span class="st">'Volume'</span>, color=<span class="st">'tomato'</span>)
+ax2.tick_params(axis=<span class="st">'y'</span>, labelcolor=<span class="st">'tomato'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Use case</div><span class="ex-comment"># When two series have very different scales
+# e.g., stock price vs trading volume</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="mp-layout">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Layouts & GridSpec</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">GridSpec — custom layouts</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">from</span> matplotlib.gridspec <span class="kw">import</span> GridSpec
+
+fig = plt.<span class="fn">figure</span>(figsize=(<span class="nm">12</span>, <span class="nm">8</span>))
+gs = <span class="fn">GridSpec</span>(<span class="nm">3</span>, <span class="nm">3</span>, figure=fig,
+    hspace=<span class="nm">0.4</span>, wspace=<span class="nm">0.3</span>)
+
+<span class="cm"># Span entire top row</span>
+ax1 = fig.<span class="fn">add_subplot</span>(gs[<span class="nm">0</span>, :])
+
+<span class="cm"># Two subplots in middle row</span>
+ax2 = fig.<span class="fn">add_subplot</span>(gs[<span class="nm">1</span>, <span class="nm">0</span>:<span class="nm">2</span>])
+ax3 = fig.<span class="fn">add_subplot</span>(gs[<span class="nm">1</span>, <span class="nm">2</span>])
+
+<span class="cm"># Full bottom row, 3 equal</span>
+axes_bot = [fig.<span class="fn">add_subplot</span>(gs[<span class="nm">2</span>, i])
+            <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">3</span>)]</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># Use constrained_layout=True in figure() for auto-spacing</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="mp-advanced">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Advanced Matplotlib</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Colormaps & colorbar</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Scatter with colormap</span>
+sc = ax.<span class="fn">scatter</span>(x, y, c=z,
+    cmap=<span class="st">'viridis'</span>,     <span class="cm"># sequential</span>
+    vmin=<span class="nm">0</span>, vmax=<span class="nm">100</span>) <span class="cm"># set scale limits</span>
+plt.<span class="fn">colorbar</span>(sc, ax=ax, label=<span class="st">'Intensity'</span>)
+
+<span class="cm"># Access colormap colors programmatically</span>
+cmap = plt.cm.<span class="fn">get_cmap</span>(<span class="st">'tab10'</span>)
+colors = [cmap(i) <span class="kw">for</span> i <span class="kw">in</span> np.<span class="fn">linspace</span>(<span class="nm">0</span>,<span class="nm">1</span>,<span class="nm">5</span>)]
+
+<span class="cm"># Diverging colormap (centered at 0)</span>
+ax.<span class="fn">imshow</span>(data, cmap=<span class="st">'RdBu'</span>, vmin=-<span class="nm">1</span>, vmax=<span class="nm">1</span>)</pre>
+            <div class="card-example"><div class="ex-label">Good colormaps</div><span class="ex-comment"># Sequential: viridis, plasma, cividis, magma
+# Diverging: RdBu, coolwarm, seismic
+# Categorical: tab10, Set2, Paired</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">3D plots</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">from</span> mpl_toolkits.mplot3d <span class="kw">import</span> Axes3D
+
+fig = plt.<span class="fn">figure</span>(figsize=(<span class="nm">8</span>, <span class="nm">6</span>))
+ax = fig.<span class="fn">add_subplot</span>(<span class="nm">111</span>, projection=<span class="st">'3d'</span>)
+
+x = np.<span class="fn">linspace</span>(-<span class="nm">3</span>, <span class="nm">3</span>, <span class="nm">50</span>)
+X, Y = np.<span class="fn">meshgrid</span>(x, x)
+Z = np.<span class="fn">sin</span>(np.<span class="fn">sqrt</span>(X**<span class="nm">2</span> + Y**<span class="nm">2</span>))
+
+ax.<span class="fn">plot_surface</span>(X, Y, Z,
+    cmap=<span class="st">'viridis'</span>, alpha=<span class="nm">0.9</span>)
+ax.<span class="fn">set_xlabel</span>(<span class="st">'X'</span>)
+ax.<span class="fn">set_ylabel</span>(<span class="st">'Y'</span>)
+ax.<span class="fn">set_zlabel</span>(<span class="st">'Z'</span>)
+ax.<span class="fn">view_init</span>(elev=<span class="nm">30</span>, azim=<span class="nm">45</span>)  <span class="cm"># camera angle</span></pre>
+            <div class="card-example"><div class="ex-label">Other 3D types</div><span class="ex-comment"># ax.scatter3D(), ax.plot3D()
+# ax.contour3D(), ax.plot_wireframe()</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Animation</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">from</span> matplotlib.animation <span class="kw">import</span> FuncAnimation
+
+fig, ax = plt.<span class="fn">subplots</span>()
+x = np.<span class="fn">linspace</span>(<span class="nm">0</span>, <span class="nm">2</span>*np.pi, <span class="nm">100</span>)
+line, = ax.<span class="fn">plot</span>(x, np.<span class="fn">sin</span>(x))
+
+<span class="kw">def</span> <span class="fn">update</span>(frame):
+    line.<span class="fn">set_ydata</span>(np.<span class="fn">sin</span>(x + frame/<span class="nm">10</span>))
+    <span class="kw">return</span> line,
+
+ani = <span class="fn">FuncAnimation</span>(fig, update,
+    frames=<span class="nm">200</span>,
+    interval=<span class="nm">30</span>,   <span class="cm"># ms between frames</span>
+    blit=<span class="kw">True</span>)     <span class="cm"># only redraw changed parts</span>
+ani.<span class="fn">save</span>(<span class="st">'wave.gif'</span>, fps=<span class="nm">30</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># blit=True is much faster for smooth animation
+# Needs pillow or ffmpeg for saving</span></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ════════════════ SEABORN ════════════════ -->
+    <section class="lib-section" id="seaborn">
+      <div class="lib-header">
+        <div class="lib-icon sb">sb</div>
+        <div>
+          <div class="lib-title" style="color:var(--sb)">Seaborn</div>
+          <div class="lib-subtitle">Statistical data visualization built on Matplotlib — beautiful defaults, smart grouping</div>
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-setup">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Setup & Themes</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Import & theme</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="kw">import</span> seaborn <span class="kw">as</span> sns
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># Set global theme</span>
+sns.<span class="fn">set_theme</span>(
+    style=<span class="st">'whitegrid'</span>,  <span class="cm"># darkgrid,white,ticks</span>
+    palette=<span class="st">'muted'</span>,    <span class="cm"># color palette</span>
+    font_scale=<span class="nm">1.1</span>      <span class="cm"># scale all fonts</span>
+)
+
+<span class="cm"># Load built-in datasets</span>
+tips    = sns.<span class="fn">load_dataset</span>(<span class="st">'tips'</span>)
+iris    = sns.<span class="fn">load_dataset</span>(<span class="st">'iris'</span>)
+flights = sns.<span class="fn">load_dataset</span>(<span class="st">'flights'</span>)
+penguins= sns.<span class="fn">load_dataset</span>(<span class="st">'penguins'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Available styles</div><span class="ex-comment"># darkgrid, whitegrid, dark, white, ticks
+# reset: sns.reset_defaults()</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Color palettes</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># Set palette globally</span>
+sns.<span class="fn">set_palette</span>(<span class="st">'husl'</span>)
+
+<span class="cm"># Named palettes</span>
+pal = sns.<span class="fn">color_palette</span>(<span class="st">'Set2'</span>, <span class="nm">8</span>)
+pal = sns.<span class="fn">color_palette</span>(<span class="st">'husl'</span>, <span class="nm">8</span>)
+pal = sns.<span class="fn">color_palette</span>(<span class="st">'tab10'</span>)
+
+<span class="cm"># Diverging palette</span>
+pal = sns.<span class="fn">diverging_palette</span>(<span class="nm">220</span>, <span class="nm">20</span>, n=<span class="nm">11</span>)
+
+<span class="cm"># Light to dark</span>
+pal = sns.<span class="fn">light_palette</span>(<span class="st">'navy'</span>, n_colors=<span class="nm">6</span>)
+pal = sns.<span class="fn">dark_palette</span>(<span class="st">'#69d'</span>, n_colors=<span class="nm">6</span>)
+
+sns.<span class="fn">palplot</span>(pal)  <span class="cm"># preview in notebook</span></pre>
+            <div class="card-example"><div class="ex-label">Qualitative palettes</div><span class="ex-comment"># Set1, Set2, Set3, tab10, tab20
+# Paired, Accent, Dark2, Pastel1</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-dist">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Distribution Plots</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">histplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">tips = sns.<span class="fn">load_dataset</span>(<span class="st">'tips'</span>)
+fig, axes = plt.<span class="fn">subplots</span>(<span class="nm">1</span>, <span class="nm">2</span>, figsize=(<span class="nm">10</span>,<span class="nm">4</span>))
+
+<span class="cm"># Basic histogram</span>
+sns.<span class="fn">histplot</span>(data=tips, x=<span class="st">'total_bill'</span>,
+    bins=<span class="nm">20</span>, kde=<span class="kw">True</span>, ax=axes[<span class="nm">0</span>])
+
+<span class="cm"># Stacked histogram by group</span>
+sns.<span class="fn">histplot</span>(data=tips, x=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'time'</span>,          <span class="cm"># color by group</span>
+    multiple=<span class="st">'stack'</span>,    <span class="cm"># or 'dodge', 'fill'</span>
+    kde=<span class="kw">True</span>,
+    ax=axes[<span class="nm">1</span>])</pre>
+            <div class="card-example"><div class="ex-label">multiple options</div><span class="ex-comment"># 'layer'  → overlapping (default)
+# 'dodge'  → side by side
+# 'stack'  → stacked
+# 'fill'   → normalized to 100%</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">kdeplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">penguins = sns.<span class="fn">load_dataset</span>(<span class="st">'penguins'</span>)
+
+<span class="cm"># 1D KDE by group</span>
+sns.<span class="fn">kdeplot</span>(data=penguins,
+    x=<span class="st">'flipper_length_mm'</span>,
+    hue=<span class="st">'species'</span>,
+    fill=<span class="kw">True</span>, alpha=<span class="nm">0.4</span>,
+    common_norm=<span class="kw">False</span>)  <span class="cm"># normalize each separately</span>
+
+<span class="cm"># 2D density (bivariate)</span>
+sns.<span class="fn">kdeplot</span>(data=penguins,
+    x=<span class="st">'flipper_length_mm'</span>,
+    y=<span class="st">'body_mass_g'</span>,
+    cmap=<span class="st">'Blues'</span>, fill=<span class="kw">True</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># common_norm=False: each group integrates to 1
+# bw_adjust=0.5: narrower bandwidth (less smooth)</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">rugplot & ecdfplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">fig, axes = plt.<span class="fn">subplots</span>(<span class="nm">1</span>, <span class="nm">2</span>, figsize=(<span class="nm">10</span>,<span class="nm">4</span>))
+
+<span class="cm"># Rug: show individual data points</span>
+sns.<span class="fn">rugplot</span>(data=tips, x=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'time'</span>, ax=axes[<span class="nm">0</span>], height=<span class="nm">0.05</span>)
+
+<span class="cm"># ECDF: empirical cumulative distribution</span>
+sns.<span class="fn">ecdfplot</span>(data=tips, x=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'time'</span>,
+    complementary=<span class="kw">False</span>,  <span class="cm"># True = survival curve</span>
+    ax=axes[<span class="nm">1</span>])</pre>
+            <div class="card-example"><div class="ex-label">ECDF reads as</div><span class="ex-comment"># "What fraction of bills are ≤ $20?"
+# → read x=20, find y value</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-cat">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Categorical Plots</div>
+          <span class="level-badge basic">basic</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">boxplot & violinplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">fig, axes = plt.<span class="fn">subplots</span>(<span class="nm">1</span>, <span class="nm">2</span>, figsize=(<span class="nm">10</span>,<span class="nm">4</span>))
+
+sns.<span class="fn">boxplot</span>(data=tips,
+    x=<span class="st">'day'</span>, y=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'time'</span>,          <span class="cm"># split by group</span>
+    order=[<span class="st">'Thur'</span>,<span class="st">'Fri'</span>,<span class="st">'Sat'</span>,<span class="st">'Sun'</span>],
+    ax=axes[<span class="nm">0</span>])
+
+sns.<span class="fn">violinplot</span>(data=tips,
+    x=<span class="st">'day'</span>, y=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'time'</span>, split=<span class="kw">True</span>,  <span class="cm"># mirrored halves</span>
+    inner=<span class="st">'quart'</span>,
+    ax=axes[<span class="nm">1</span>])</pre>
+            <div class="card-example"><div class="ex-label">inner options</div><span class="ex-comment"># 'box'     → mini boxplot inside
+# 'quart'   → quartile lines
+# 'point'   → all data points
+# 'stick'   → data ticks</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">stripplot & swarmplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="nm">8</span>, <span class="nm">5</span>))
+
+<span class="cm"># Box + strip overlay (best of both)</span>
+sns.<span class="fn">boxplot</span>(data=tips, x=<span class="st">'day'</span>,
+    y=<span class="st">'total_bill'</span>, ax=ax,
+    color=<span class="st">'lightblue'</span>, width=<span class="nm">0.5</span>)
+
+sns.<span class="fn">stripplot</span>(data=tips, x=<span class="st">'day'</span>,
+    y=<span class="st">'total_bill'</span>, ax=ax,
+    jitter=<span class="kw">True</span>, alpha=<span class="nm">0.5</span>,
+    color=<span class="st">'navy'</span>, size=<span class="nm">3</span>)
+
+<span class="cm"># swarmplot: no overlapping points</span>
+sns.<span class="fn">swarmplot</span>(data=tips, x=<span class="st">'day'</span>,
+    y=<span class="st">'total_bill'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># swarmplot is slow for n > 500. Use stripplot then.</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">barplot & pointplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># barplot: mean + 95% CI error bar</span>
+sns.<span class="fn">barplot</span>(data=tips,
+    x=<span class="st">'day'</span>, y=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'sex'</span>,
+    errorbar=<span class="st">'ci'</span>,    <span class="cm"># ci, sd, se, pi</span>
+    capsize=<span class="nm">0.1</span>)
+
+<span class="cm"># pointplot: connected means</span>
+sns.<span class="fn">pointplot</span>(data=tips,
+    x=<span class="st">'day'</span>, y=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'sex'</span>,
+    dodge=<span class="kw">True</span>,
+    markers=[<span class="st">'o'</span>, <span class="st">'s'</span>])</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># errorbar='ci' → bootstrap 95% confidence interval
+# errorbar='sd' → ± 1 standard deviation</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-rel">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Relational Plots</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">scatterplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">penguins = sns.<span class="fn">load_dataset</span>(<span class="st">'penguins'</span>)
+
+sns.<span class="fn">scatterplot</span>(data=penguins,
+    x=<span class="st">'flipper_length_mm'</span>,
+    y=<span class="st">'body_mass_g'</span>,
+    hue=<span class="st">'species'</span>,    <span class="cm"># color by species</span>
+    style=<span class="st">'sex'</span>,      <span class="cm"># shape by sex</span>
+    size=<span class="st">'bill_length_mm'</span>,  <span class="cm"># size by value</span>
+    sizes=(<span class="nm">20</span>, <span class="nm">200</span>),  <span class="cm"># min/max point size</span>
+    alpha=<span class="nm">0.7</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># hue + style + size encodes 3 variables in one plot
+# Don't use all 3 at once — gets cluttered fast</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">lineplot with CI</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">flights = sns.<span class="fn">load_dataset</span>(<span class="st">'flights'</span>)
+
+sns.<span class="fn">lineplot</span>(data=flights,
+    x=<span class="st">'year'</span>, y=<span class="st">'passengers'</span>,
+    hue=<span class="st">'month'</span>,       <span class="cm"># one line per month</span>
+    errorbar=<span class="st">'ci'</span>)     <span class="cm"># confidence band</span>
+
+<span class="cm"># Aggregate: mean across all months per year</span>
+sns.<span class="fn">lineplot</span>(data=flights,
+    x=<span class="st">'year'</span>, y=<span class="st">'passengers'</span>,
+    errorbar=<span class="st">'sd'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># When hue is not set, lineplot aggregates
+# and shows mean ± CI automatically</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">regplot & lmplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># regplot: axes-level regression</span>
+fig, ax = plt.<span class="fn">subplots</span>()
+sns.<span class="fn">regplot</span>(data=tips,
+    x=<span class="st">'total_bill'</span>, y=<span class="st">'tip'</span>,
+    ci=<span class="nm">95</span>,
+    scatter_kws={<span class="st">'alpha'</span>:<span class="nm">0.5</span>},
+    line_kws={<span class="st">'color'</span>:<span class="st">'red'</span>}, ax=ax)
+
+<span class="cm"># lmplot: figure-level, supports faceting</span>
+sns.<span class="fn">lmplot</span>(data=tips,
+    x=<span class="st">'total_bill'</span>, y=<span class="st">'tip'</span>,
+    hue=<span class="st">'smoker'</span>, col=<span class="st">'time'</span>,
+    order=<span class="nm">1</span>)</pre>
+            <div class="card-example"><div class="ex-label">order parameter</div><span class="ex-comment"># order=1 → linear  order=2 → quadratic
+# logistic=True for binary y variables</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-matrix">
+        <div class="topic-group-header">
+          <div class="topic-group-title">Matrix & Multi-Plot</div>
+          <span class="level-badge inter">intermediate</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">heatmap</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">flights = sns.<span class="fn">load_dataset</span>(<span class="st">'flights'</span>)
+pivot = flights.<span class="fn">pivot_table</span>(
+    index=<span class="st">'month'</span>, columns=<span class="st">'year'</span>,
+    values=<span class="st">'passengers'</span>)
+
+<span class="cm"># Correlation heatmap</span>
+iris = sns.<span class="fn">load_dataset</span>(<span class="st">'iris'</span>)
+corr = iris.<span class="fn">drop</span>(<span class="st">'species'</span>, axis=<span class="nm">1</span>).<span class="fn">corr</span>()
+
+sns.<span class="fn">heatmap</span>(corr,
+    annot=<span class="kw">True</span>, fmt=<span class="st">'.2f'</span>,
+    cmap=<span class="st">'coolwarm'</span>, center=<span class="nm">0</span>,
+    linewidths=<span class="nm">0.5</span>,
+    mask=np.<span class="fn">triu</span>(np.<span class="fn">ones_like</span>(corr, dtype=<span class="kw">bool</span>)))</pre>
+            <div class="card-example"><div class="ex-label">mask tip</div><span class="ex-comment"># np.triu mask shows only lower triangle
+# Avoids redundant correlation values</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">pairplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">penguins = sns.<span class="fn">load_dataset</span>(<span class="st">'penguins'</span>)
+
+sns.<span class="fn">pairplot</span>(penguins,
+    hue=<span class="st">'species'</span>,
+    diag_kind=<span class="st">'kde'</span>,      <span class="cm"># or 'hist'</span>
+    corner=<span class="kw">True</span>,          <span class="cm"># lower triangle only</span>
+    plot_kws={<span class="st">'alpha'</span>:<span class="nm">0.6</span>, <span class="st">'s'</span>:<span class="nm">30</span>},
+    diag_kws={<span class="st">'fill'</span>:<span class="kw">True</span>})
+
+<span class="cm"># Select only certain columns</span>
+cols = [<span class="st">'bill_length_mm'</span>,<span class="st">'body_mass_g'</span>]
+sns.<span class="fn">pairplot</span>(penguins[cols + [<span class="st">'species'</span>]],
+    hue=<span class="st">'species'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># pairplot is slow on wide datasets (many cols)
+# Subset to relevant columns first</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">jointplot</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">tips = sns.<span class="fn">load_dataset</span>(<span class="st">'tips'</span>)
+
+<span class="cm"># Joint distribution with marginals</span>
+g = sns.<span class="fn">jointplot</span>(data=tips,
+    x=<span class="st">'total_bill'</span>, y=<span class="st">'tip'</span>,
+    kind=<span class="st">'scatter'</span>,  <span class="cm"># scatter,kde,hex,hist,reg</span>
+    marginal_kws={<span class="st">'bins'</span>: <span class="nm">20</span>})
+
+<span class="cm"># Add regression line on top</span>
+g.<span class="fn">plot_joint</span>(sns.regplot,
+    scatter_kws={<span class="st">'alpha'</span>:<span class="nm">0.3</span>})</pre>
+            <div class="card-example"><div class="ex-label">kind options</div><span class="ex-comment"># 'scatter' → points  'kde' → density
+# 'hex'     → hexbin  'hist' → 2D histogram  
+# 'reg'     → regression line</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-group fade-in" id="sb-advanced">
+        <div class="topic-group-header">
+          <div class="topic-group-title">FacetGrid & Advanced</div>
+          <span class="level-badge adv">advanced</span>
+        </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">FacetGrid</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">tips = sns.<span class="fn">load_dataset</span>(<span class="st">'tips'</span>)
+
+g = sns.<span class="fn">FacetGrid</span>(tips,
+    col=<span class="st">'time'</span>,       <span class="cm"># columns by time</span>
+    row=<span class="st">'sex'</span>,        <span class="cm"># rows by sex</span>
+    height=<span class="nm">3</span>,
+    aspect=<span class="nm">1.2</span>,
+    sharey=<span class="kw">True</span>)
+
+g.<span class="fn">map_dataframe</span>(sns.histplot,
+    x=<span class="st">'total_bill'</span>, bins=<span class="nm">15</span>, kde=<span class="kw">True</span>)
+
+g.<span class="fn">set_axis_labels</span>(<span class="st">'Total Bill'</span>, <span class="st">'Count'</span>)
+g.<span class="fn">set_titles</span>(col_template=<span class="st">'{col_name}'</span>,
+             row_template=<span class="st">'{row_name}'</span>)
+g.<span class="fn">add_legend</span>()</pre>
+            <div class="card-example"><div class="ex-label">Tip</div><span class="ex-comment"># FacetGrid.map() vs .map_dataframe():
+# map_dataframe passes data= kwarg automatically</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Figure-level functions</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code"><span class="cm"># relplot — scatter/line with facets</span>
+sns.<span class="fn">relplot</span>(data=tips,
+    x=<span class="st">'total_bill'</span>, y=<span class="st">'tip'</span>,
+    col=<span class="st">'time'</span>, hue=<span class="st">'smoker'</span>,
+    kind=<span class="st">'scatter'</span>)
+
+<span class="cm"># displot — distribution with facets</span>
+sns.<span class="fn">displot</span>(data=tips,
+    x=<span class="st">'total_bill'</span>, col=<span class="st">'time'</span>,
+    kind=<span class="st">'kde'</span>, fill=<span class="kw">True</span>)
+
+<span class="cm"># catplot — categorical with facets</span>
+sns.<span class="fn">catplot</span>(data=tips,
+    x=<span class="st">'day'</span>, y=<span class="st">'total_bill'</span>,
+    col=<span class="st">'time'</span>, kind=<span class="st">'box'</span>)</pre>
+            <div class="card-example"><div class="ex-label">Figure-level returns</div><span class="ex-comment"># FacetGrid object (not Axes)
+# Access axes: g.axes, g.axes_dict</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">Combine with Matplotlib</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">fig, axes = plt.<span class="fn">subplots</span>(<span class="nm">1</span>, <span class="nm">2</span>, figsize=(<span class="nm">10</span>,<span class="nm">4</span>))
+
+<span class="cm"># Pass ax= to any axes-level function</span>
+sns.<span class="fn">boxplot</span>(data=tips, x=<span class="st">'day'</span>,
+    y=<span class="st">'total_bill'</span>, ax=axes[<span class="nm">0</span>])
+sns.<span class="fn">stripplot</span>(data=tips, x=<span class="st">'day'</span>,
+    y=<span class="st">'total_bill'</span>, ax=axes[<span class="nm">0</span>],
+    color=<span class="st">'black'</span>, alpha=<span class="nm">0.4</span>, size=<span class="nm">3</span>)
+
+sns.<span class="fn">kdeplot</span>(data=tips, x=<span class="st">'total_bill'</span>,
+    hue=<span class="st">'day'</span>, ax=axes[<span class="nm">1</span>], fill=<span class="kw">True</span>)
+
+plt.<span class="fn">suptitle</span>(<span class="st">'Combined Seaborn + Matplotlib'</span>)
+plt.<span class="fn">tight_layout</span>()</pre>
+            <div class="card-example"><div class="ex-label">Rule</div><span class="ex-comment"># Axes-level functions: pass ax= parameter
+# Figure-level functions: create their own figure</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span class="card-label">clustermap</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+<pre class="code">flights = sns.<span class="fn">load_dataset</span>(<span class="st">'flights'</span>)
+pivot = flights.<span class="fn">pivot_table</span>(
+    index=<span class="st">'month'</span>, columns=<span class="st">'year'</span>,
+    values=<span class="st">'passengers'</span>)
+
+g = sns.<span class="fn">clustermap</span>(pivot,
+    cmap=<span class="st">'viridis'</span>,
+    standard_scale=<span class="nm">1</span>,    <span class="cm"># normalize each col</span>
+    figsize=(<span class="nm">10</span>, <span class="nm">8</span>),
+    dendrogram_ratio=<span class="nm">0.15</span>,
+    annot=<span class="kw">True</span>, fmt=<span class="st">'d'</span>)</pre>
+            <div class="card-example"><div class="ex-label">standard_scale options</div><span class="ex-comment"># 0 → normalize each row to [0,1]
+# 1 → normalize each column to [0,1]
+# None → no normalization</span></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<a href="#" class="back-top" id="backTop">↑ Top</a>
+
+<footer>
+  <p>Python Data Science Cheat Sheet &nbsp;·&nbsp;
+  Pandas · NumPy · Matplotlib · Seaborn &nbsp;·&nbsp;
+  <a href="https://pandas.pydata.org/docs/">pandas docs</a> ·
+  <a href="https://numpy.org/doc/">numpy docs</a> ·
+  <a href="https://matplotlib.org/">matplotlib docs</a> ·
+  <a href="https://seaborn.pydata.org/">seaborn docs</a>
+  </p>
+</footer>
+
+<script>
+// ── COPY CODE ──────────────────────────────────
+function copyCode(btn) {
+  const card = btn.closest('.card');
+  const code = card.querySelector('pre.code');
+  const text = code.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'copy';
+      btn.classList.remove('copied');
+    }, 1800);
+  });
+}
+
+// ── SCROLL ANIMATIONS ──────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── ACTIVE NAV HIGHLIGHT ────────────────────────
+const sections = document.querySelectorAll('.lib-section');
+const navBtns = document.querySelectorAll('.lib-btn');
+
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      const match = document.querySelector(`.lib-btn[href="#${id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.2 });
+
+sections.forEach(s => sectionObserver.observe(s));
+
+// ── SIDEBAR ACTIVE LINKS ────────────────────────
+const sideLinks = document.querySelectorAll('.sidebar-link');
+const topicGroups = document.querySelectorAll('.topic-group[id]');
+
+const topicObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      sideLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.sidebar-link[href="#${id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+topicGroups.forEach(g => topicObserver.observe(g));
+
+// ── BACK TO TOP ─────────────────────────────────
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) backTop.classList.add('show');
+  else backTop.classList.remove('show');
+});
+
+// ── SEARCH ──────────────────────────────────────
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  if (!q) {
+    document.querySelectorAll('.card, .topic-group').forEach(el => {
+      el.style.display = '';
+    });
+    return;
+  }
+  document.querySelectorAll('.topic-group').forEach(group => {
+    let groupVisible = false;
+    group.querySelectorAll('.card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const match = text.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) groupVisible = true;
+    });
+    group.style.display = groupVisible ? '' : 'none';
+  });
+});
+</script>
+
+</body>
+</html>
